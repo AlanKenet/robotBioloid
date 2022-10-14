@@ -46,25 +46,6 @@ def calcTH(paramsDH):
 
     t = t_theta @ t_d @ t_a @ t_alpha
 
-    return t
-
-def calcTHenY(beta,y):
-
-    r_I = np.identity(3)
-
-    r_beta  = np.array( ([ cos(beta), 0, sin(beta)],
-                         [         0, 1,         0],
-                         [-sin(beta), 0, cos(beta)]) )
-
-    p_0 = np.array( np.zeros( (3,1) ) )
-
-    p_y = np.array( ([0], [y], [0]) )
-
-    t_y    = np.vstack(  [np.hstack( [r_I,p_y] )   , np.array( [0, 0, 0, 1] ) ] )
-    t_beta = np.vstack(  [np.hstack( [r_beta,p_0] ), np.array( [0, 0, 0, 1] ) ] )
-
-    t = np.dot( t_beta, t_y )
-
     return t,
 
 GDL = 6
@@ -75,8 +56,8 @@ L = [20,20,20,20]
 # Q = [0, 0]
 # Q = [pi/2, pi/2]
 
-Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
-# Q = [0, 0, 0, 0, 0, 0]
+# Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
+Q = [0, 0, 0, 0, 0, 0]
 # Q = [pi/2, pi/2, pi/2, pi/2, pi/2, pi/2]
 
 posFin = np.zeros( (3,GDL+1) )
@@ -141,12 +122,12 @@ tamRef = 10
 
 colores = ['y', 'g', 'r']
 
-ARef = np.zeros( (4, 4) )
+ARef = np.zeros( (4, 4) ).reshape(4,4)
 # print(ARef)
 # print(ARef.shape)
 # print('')
 
-ARef = np.array( calcTH( [tamRef, 0, 0, 0 ] ) )
+ARef = np.array( calcTH( [tamRef, 0, 0, 0 ] ) ).reshape(4,4)
 # print(ARef)
 # print(ARef.shape)
 # print('')
