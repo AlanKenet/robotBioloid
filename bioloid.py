@@ -86,7 +86,7 @@ posRef = np.zeros( (3, 3, 2) )
 
 tamRef = 12
 
-colores = ['red', 'gold', 'chartreuse']
+colores = ['red', 'navy', 'chartreuse']
 
 ARef = np.zeros( (3, 4, 4) )
 ARef[0] = np.array( calcTH( [     0,      0, tamRef, 0 ] ) )
