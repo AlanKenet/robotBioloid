@@ -39,17 +39,17 @@ GDL = 6
 
 L = [30,30,30,30]
 
-# Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
-Q = [0, 0, 0, 0, 0, 0]
+Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
+# Q = [0, 0, 0, 0, 0, 0]
 # Q = [pi/2, pi/2, pi/2, pi/2, pi/2, pi/2]
 
 #DH parametros = [theta, d,  a, alpha]
 dH  = np.array([ [         Q[0],     0,     0,     0 ],
                  [         Q[1], -L[0],     0, -pi/2 ],
-                 [ (-pi/2)+Q[2],     0,     0, -pi/2 ],
-                 [         Q[3],     0, -L[1],     0 ],
-                 [         Q[4],     0, -L[2],     0 ],
-                 [         Q[5],     0,     0,  pi/2 ], ])
+                 [  (pi/2)+Q[2],     0,     0,  pi/2 ],
+                 [         Q[3],     0,  L[1],     0 ],
+                 [         Q[4],     0,  L[2],     0 ],
+                 [         Q[5],     0,     0, -pi/2 ], ])
 
 
 
@@ -65,10 +65,10 @@ H[0] = np.array( [[1, 0, 0, 0],
 posFin = np.zeros( (3,GDL+1) )
 posFin[0,0] = H[0,0,3]
 posFin[0,1] = H[0,1,3]
-posFin[0,1] = H[0,2,3]
+posFin[0,2] = H[0,2,3]
 
 #Axes parametros
-limt = 60
+limt = 80
 fuenteTam = 7
 
 fig = plt.figure()
@@ -95,10 +95,10 @@ plt.plot(posFin[0], posFin[1], posFin[2], lw = 2, color = 'black',
 
 posRef = np.zeros( (3, 3, 2) )
 
-tamRef = 12
+tamRef = 13
 
 colores = ['red', 'navy', 'darkgreen']
-etiquetas = ['x','y','z']
+etiquetas = ['x', 'y', 'z']
 selector = np.identity(3)
 
 ARef = np.zeros( (3, 4, 4) )
@@ -116,7 +116,7 @@ for i in range(GDL):
             posRef[j,k,0] = H[i+1,k,3]
             posRef[j,k,1] = HRef[j,k,3]
 
-        etiqueta = r'$%s_{%d}$' % (etiquetas[j],i+1)
+        etiqueta = r'$%s_%d$' % (etiquetas[j],i+1)
         ax.text(posRef[j,0,1]+ (3 * (i%2) * selector[j,1]),
                 posRef[j,1,1]+ (3 * (i%2) * selector[j,2]),
                 posRef[j,2,1]+ (3 * (i%2) * selector[j,0]),
