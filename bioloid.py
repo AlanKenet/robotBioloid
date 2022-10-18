@@ -37,29 +37,38 @@ def calcTH(paramsDH):
 
 GDL = 6
 
-L = [20,20,20,20]
+L = [30,30,30,30]
 
-Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
-# Q = [0, 0, 0, 0, 0, 0]
+# Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
+Q = [0, 0, 0, 0, 0, 0]
 # Q = [pi/2, pi/2, pi/2, pi/2, pi/2, pi/2]
 
-posFin = np.zeros( (3,GDL+1) )
-
 #DH parametros = [theta, d,  a, alpha]
-dH  = np.array([ [ Q[0], 0, 20,    0 ],
-                 [ Q[1], 0, 20,    0 ],
-                 [ Q[2], 0, 20,    0 ],
-                 [ Q[3], 0, 20,    0 ],
-                 [ Q[4], 0, 20,    0 ],
-                 [ Q[5], 0, 20,    0 ], ])
+dH  = np.array([ [         Q[0],     0,     0,     0 ],
+                 [         Q[1], -L[0],     0, -pi/2 ],
+                 [ (-pi/2)+Q[2],     0,     0, -pi/2 ],
+                 [         Q[3],     0, -L[1],     0 ],
+                 [         Q[4],     0, -L[2],     0 ],
+                 [         Q[5],     0,     0,  pi/2 ], ])
+
+
 
 A = np.zeros( (GDL, 4, 4) )
 
 H = np.zeros( (GDL+1, 4, 4) )
-H[0] = np.identity(4)
+# H[0] = np.identity(4)
+H[0] = np.array( [[1, 0, 0, 0],
+                  [0, 1, 0, 0],
+                  [0, 0, 1, 0],
+                  [0, 0, 0, 1]] )
 
-limt = 120
+posFin = np.zeros( (3,GDL+1) )
+posFin[0,0] = H[0,0,3]
+posFin[0,1] = H[0,1,3]
+posFin[0,1] = H[0,2,3]
 
+#Axes parametros
+limt = 60
 fuenteTam = 7
 
 fig = plt.figure()
@@ -69,6 +78,8 @@ ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
 
+#Inicio
+
 for i in range(GDL):
     A[i] = np.array( calcTH( dH[i] ) )
 
@@ -77,8 +88,8 @@ for i in range(GDL):
     for j in range(3):
         posFin[j,i+1] = H[i+1,j,3]
 
-plt.plot(posFin[0], posFin[1], posFin[2], lw = 2, color = 'indigo',
-         marker = 'o', markerfacecolor = 'mediumpurple', markeredgecolor = 'mediumpurple')
+plt.plot(posFin[0], posFin[1], posFin[2], lw = 2, color = 'black',
+         marker = 'o', markerfacecolor = 'black', markeredgecolor = 'black')
 
 
 
@@ -86,7 +97,9 @@ posRef = np.zeros( (3, 3, 2) )
 
 tamRef = 12
 
-colores = ['red', 'navy', 'chartreuse']
+colores = ['red', 'navy', 'darkgreen']
+etiquetas = ['x','y','z']
+selector = np.identity(3)
 
 ARef = np.zeros( (3, 4, 4) )
 ARef[0] = np.array( calcTH( [     0,      0, tamRef, 0 ] ) )
@@ -103,9 +116,19 @@ for i in range(GDL):
             posRef[j,k,0] = H[i+1,k,3]
             posRef[j,k,1] = HRef[j,k,3]
 
-        plt.plot([posRef[j,0,0], posRef[j,0,1]],
-                 [posRef[j,1,0], posRef[j,1,1]],
-                 [posRef[j,2,0], posRef[j,2,1]], colores[j])
+        etiqueta = r'$%s_{%d}$' % (etiquetas[j],i+1)
+        ax.text(posRef[j,0,1]+ (3 * (i%2) * selector[j,1]),
+                posRef[j,1,1]+ (3 * (i%2) * selector[j,2]),
+                posRef[j,2,1]+ (3 * (i%2) * selector[j,0]),
+                etiqueta, size = 9, color = colores[j])
+
+        ax.quiver(posRef[j,0,0],
+                  posRef[j,1,0],
+                  posRef[j,2,0],
+                  posRef[j,0,1]-posRef[j,0,0],
+                  posRef[j,1,1]-posRef[j,1,0],
+                  posRef[j,2,1]-posRef[j,2,0],
+                  color = colores[j])
 
 
 
