@@ -52,7 +52,7 @@ dH  = np.array([ [  (pi/2)+Q[0],     0,     0,    pi ],
                  [            0,     0, -L[2],     0 ],#Auxiliar
                  [  (pi/2)+Q[4],     0,     0,     0 ],
                  [        -pi/2,     0,     0, -pi/2 ],#Auxiliar
-                 [   (pi/2)+Q[5],     0,     0,     0 ], ])
+                 [  (pi/2)+Q[5],     0,     0,     0 ], ])
 
 
 
@@ -120,9 +120,9 @@ for i in range(GDL):
             posRef[j,k,1] = HRef[j,k,3]
 
         etiqueta = r'$%s_%d$' % (etiquetas[j],i+1)
-        ax.text(posRef[j,0,1]+ (3 * (i%2) * selector[j,1]),
-                posRef[j,1,1]+ (3 * (i%2) * selector[j,2]),
-                posRef[j,2,1]+ (3 * (i%2) * selector[j,0]),
+        ax.text(posRef[j,0,1]+ (2 * (i%3) * selector[j,0]),
+                posRef[j,1,1]+ (2 * (i%3) * selector[j,1]),
+                posRef[j,2,1]+ (2 * (i%3) * selector[j,2]),
                 etiqueta, size = 9, color = colores[j])
 
         ax.quiver(posRef[j,0,0],
