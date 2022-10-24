@@ -35,21 +35,24 @@ def calcTH(paramsDH):
 
     return t,
 
-GDL = 6
+GDL = 9
 
 L = [30,30,30,30]
 
-Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
-# Q = [0, 0, 0, 0, 0, 0]
+# Q = [pi/4, pi/4, pi/4, pi/4, pi/4, pi/4]
+Q = [0, 0, 0, 0, 0, 0]
 # Q = [pi/2, pi/2, pi/2, pi/2, pi/2, pi/2]
 
 #DH parametros = [theta, d,  a, alpha]
-dH  = np.array([ [         Q[0],     0,     0,     0 ],
-                 [         Q[1], -L[0],     0, -pi/2 ],
-                 [  (pi/2)+Q[2],     0,     0,  pi/2 ],
-                 [         Q[3],     0,  L[1],     0 ],
-                 [         Q[4],     0,  L[2],     0 ],
-                 [         Q[5],     0,     0, -pi/2 ], ])
+dH  = np.array([ [  (pi/2)+Q[0],     0,     0,    pi ],
+                 [ (-pi/2)+Q[1],  L[0],     0, -pi/2 ],
+                 [        -pi/2,     0,     0, -pi/2 ],#Auxiliar
+                 [  (pi/2)+Q[2],     0,     0,     0 ],
+                 [  (pi/2)+Q[3],     0, -L[1],     0 ],
+                 [            0,     0, -L[2],     0 ],#Auxiliar
+                 [  (pi/2)+Q[4],     0,     0,     0 ],
+                 [        -pi/2,     0,     0, -pi/2 ],#Auxiliar
+                 [   (pi/2)+Q[5],     0,     0,     0 ], ])
 
 
 
