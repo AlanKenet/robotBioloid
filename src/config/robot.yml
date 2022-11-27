@@ -1,0 +1,128 @@
+#Robot BIOLOID TIPO A
+bioloid:
+  nombre: Bioloid A
+  tipo: Humanoide
+  base: origen
+  numerodecadenas: 2
+  cadenas:
+    brazoderecho:
+      nombre: Brazo Derecho
+      gdl: 3
+      limites:
+        - -150
+        - 150
+        - -100
+        - 90
+        - -100
+        - 100
+      params:
+        cantidad: 10
+        posiciontheta:
+        - 3
+        - 6
+        - 9
+        offset:
+          - 0
+          - 90
+          - 0
+          - -90
+          - 0
+          - 0
+          - -90
+          - 90
+          - 0
+          - 90
+        d:
+          - 0
+          - 0
+          - 0
+          - 25
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+        a:
+          - -47
+          - 0
+          - 0
+          - 14.5
+          - 0
+          - 0
+          - 67.5
+          - 0
+          - 0
+          - -74.5
+        alpha:
+          - 0
+          - -90
+          - 0
+          - 0
+          - -90
+          - 0
+          - 0
+          - 0
+          - 0
+          - 90
+
+    brazoizquierdo:
+      nombre: Brazo Izquierdo
+      gdl: 3
+      limites:
+        - -150
+        - 150
+        - -90
+        - 100
+        - -100
+        - 100
+      params:
+        cantidad: 10
+        posiciontheta:
+          - 3
+          - 6
+          - 9
+        offset:
+          - 0
+          - 90
+          - 0
+          - 90
+          - -180
+          - 0
+          - -90
+          - 90
+          - 0
+          - -90
+        d:
+          - 0
+          - 0
+          - 0
+          - 25
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+        a:
+          - 47
+          - 0
+          - 0
+          - 14.5
+          - 0
+          - 0
+          - 67.5
+          - 0
+          - 0
+          - 74.5
+        alpha:
+          - 0
+          - 90
+          - 0
+          - 0
+          - -90
+          - 0
+          - 0
+          - 0
+          - 0
+          - 90
