@@ -6,7 +6,11 @@ import yaml
 class Robot:
     nombre = ''
     tipo = ''
-    base = np.identity(4)
+    base = np.array( ( [1, 0, 0,   0],
+                       [0, 1, 0, 306],
+                       [0, 0, 1,   0],
+                       [0, 0, 0,   1] ) )
+
     numerodecadenas = 0
     cadenas = []
 
@@ -137,7 +141,7 @@ class CadenaCinematica:
         return v
 
     def crearlocalesmref(self):
-        tamref = 20
+        tamref = 30
         self.Aref = np.array( [np.identity(4)]*3 )
 
         self.Aref[0] = np.array( calcdh(             0,      0, tamref, 0 ) )
