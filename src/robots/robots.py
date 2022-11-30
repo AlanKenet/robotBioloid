@@ -7,7 +7,7 @@ class Robot:
     nombre = ''
     tipo = ''
     base = np.array( ( [1, 0, 0,   0],
-                       [0, 1, 0, 306],
+                       [0, 1, 0,   0],
                        [0, 0, 1,   0],
                        [0, 0, 0,   1] ) )
 
@@ -34,7 +34,6 @@ class Robot:
             self.cadenas.append( CadenaCinematica( listadecadenas.get(nombrecadena) ) )
 
         self.cadenas = np.array(self.cadenas).reshape(self.numerodecadenas)
-
 
 class CadenaCinematica:
     Apre = []
@@ -160,10 +159,51 @@ class CadenaCinematica:
                     self.posmref[xi, xj, xk, 0] = self.H[xi,xk,3]
                     self.posmref[xi, xj, xk, 1] = Href[xj,xk,3]
 
+class Trayectoria:
+    nombrecadena = []
+    puntos = []
+    intervalosdetiempo = []
+    interpolacion = []
 
+    dt = 0.1
 
+    q = []
+    dq = []
 
+    def __init__(self, cadena, puntos, intervalosdetiempo, interpolacion):
+        self.nombrecadena = cadena.nombre
+        self.puntos = puntos
+        self.intervalosdetiempo = intervalosdetiempo
+        self.interpolacion = interpolacion
 
+        self.crearvaloresarticulares(cadena)
+
+        self.dq = np.array( ([[]]*cadena.gdl) )
+
+        self.creartrayectoria(cadena)
+
+    def crearvaloresarticulares(self, cadena):
+        for cc in range( len(self.puntos) ):
+            self.q.append( cadena.cinematicainversabrazo(self.puntos[cc,0], self.puntos[cc,1], self.puntos[cc,2], 'arriba') )
+
+        self.q = np.array(self.q)
+
+    def creartrayectoria(self, cadena):
+        for cc in range( len(self.puntos)-1 ):
+            q = [[]]*cadena.gdl
+
+            for cd in range(cadena.gdl):
+                if self.interpolacion == 'lineal':
+                    q[cd] = interpolacionlineal( self.q[cc,cd], self.q[cc+1,cd], self.intervalosdetiempo[cc], self.intervalosdetiempo[cc+1], self.dt )
+
+            q = np.array(q).reshape(3,-1)
+            self.dq = np.concatenate((self.dq, q), axis = 1)
+
+            del q
+
+        self.dq = np.around(self.dq,4)
+        self.dq = self.dq.flatten()
+        self.dq = self.dq.reshape(3,-1)
 
 #Funciones
 def extraerdatos(ubicacion):
@@ -201,7 +241,7 @@ def calcdh(theta, d, a, alpha):
 def cibi(x, y, z, codo):
         l0 = 47
         l1 = 25
-        l2 = 14.5
+        l2   = 14.5
         l3 = 67.5
         l4 = 74.5
 
@@ -278,3 +318,18 @@ def cibd(x, y, z, codo):
         v = [q1,q2,q3]
 
         return v
+def interpolacionlineal(qini, qfin, tini, tfin, dt):
+        A = np.array( ( [tini, 1],
+                        [tfin, 1]) )
+
+        b = np.array( ( [qini],
+                        [qfin]) )
+
+        a = np.linalg.solve(A,b)
+
+        muestras = np.arange(tini+dt, tfin+dt, dt)
+
+        q = a[0] * muestras + a[1]
+        q = np.array(q)
+
+        return q
